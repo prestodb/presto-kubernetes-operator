@@ -1,8 +1,8 @@
-# SteerD Presto Kubernetes Operator
+# Presto Kubernetes Operator
 
 [Kubernetes](https://kubernetes.io/docs/home/) is an open source container orchestration engine for automating deployment, scaling, and management of containerized applications. [Operators](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/) are software extensions to Kubernetes that make use of custom resources to manage applications and their components. Operators follow Kubernetes principles, notably the control loop.
 
-SteerD Presto Operator is a Kubernetes Operator for Presto to manage Presto clusters which are deployed as custom resources. In short, the task of configuring, creating, managing, automatically scaling up and scaling-in of Presto cluster(s) in a Kubernetes environment has been made simple, easy and quick.
+Use this operator to manage Presto clusters which are deployed as custom resources. In short, the task of configuring, creating, managing, automatically scaling up and scaling-in of Presto cluster(s) in a Kubernetes environment has been made simple, easy and quick.
 
 ## Deploying Operator
 
@@ -11,7 +11,7 @@ SteerD Presto Operator is a Kubernetes Operator for Presto to manage Presto clus
 
 *Step 2:* Build the operator 
 ```bash
-$ go build  -o steerd-presto-operator cmd/manager/main.go 
+$ go build  -o presto-kubernetes-operator cmd/manager/main.go 
 ```
 
 *Step 3:* Deploy the CRD
@@ -21,7 +21,7 @@ $  kubectl apply -f    deploy/crds/falarica.io_prestos_crd.yaml
 
 *Step 4:* Start the controller with the right credentials
 ```bash
-$ ./steerd-presto-operator -kubeconfig /home/hemant/.kube/config
+$ ./presto-kubernetes-operator -kubeconfig /home/hemant/.kube/config
 ```
 
 ### Deploying Operator - GKE
@@ -38,9 +38,9 @@ $  kubectl apply -f    deploy/crds/falarica.io_prestos_crd.yaml
 ```
 *Step 4:* Update the Operator yaml with image name 
 ```bash
-# Here gcr.io/fluid-tangent-249303/steerd-presto-operator is the name of image. 
+# Here gcr.io/fluid-tangent-249303/presto-kubernetes-operator is the name of image. 
 # Replace it with your image name
-$ sed -i 's/REPLACE_IMAGE/gcr.io\/fluid-tangent-249303\/steerd-presto-operator/g' deploy/operator.yaml
+$ sed -i 's/REPLACE_IMAGE/gcr.io\/fluid-tangent-249303\/presto-kubernetes-operator/g' deploy/operator.yaml
 ```
 
 *Step 5:* Launch the operator
