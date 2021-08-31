@@ -5,7 +5,7 @@ Presto cluster can be created by specifying the cluster properties as YAML and t
 Following is an example of Presto resource YAML.
 
 ```bash
-apiVersion: falarica.io/v1alpha1
+apiVersion: prestodb.io/v1alpha1
 kind: Presto
 metadata:
   name: mycluster
@@ -49,7 +49,7 @@ spec:
 Presto cluster can be created using this YAML.
 
 ```bash
-kubectl apply   -f  deploy/crds/falarica_prestodb.yaml
+kubectl apply   -f  deploy/crds/prestodb.yaml
 ```
 
 The main components of the YAML are service, catalogs, coordinator and worker. Coordinator and worker are used to specify the properties of coordinator and worker. All the workers in the cluster would have the same properties.

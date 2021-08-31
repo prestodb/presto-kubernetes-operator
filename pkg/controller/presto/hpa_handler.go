@@ -4,7 +4,7 @@ package presto
 import (
 	"context"
 	"fmt"
-	"github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1"
+	"github.com/prestodb/presto-kubernetes-operator/pkg/apis/falarica/v1alpha1"
 	v1 "k8s.io/api/apps/v1"
 	autoscalingv1 "k8s.io/api/autoscaling/v1"
 	"k8s.io/apimachinery/pkg/api/errors"

@@ -16,7 +16,7 @@ $ go build  -o presto-kubernetes-operator cmd/manager/main.go
 
 *Step 3:* Deploy the CRD
 ```bash
-$  kubectl apply -f    deploy/crds/falarica.io_prestos_crd.yaml
+$  kubectl apply -f    deploy/crds/prestodb.io_prestos_crd.yaml
 ```
 
 *Step 4:* Start the controller with the right credentials
@@ -34,7 +34,7 @@ $ docker/gcloudDockerBuild.sh
 ```
 *Step 3:* Deploy the CRD
 ```bash
-$  kubectl apply -f    deploy/crds/falarica.io_prestos_crd.yaml
+$  kubectl apply -f    deploy/crds/prestodb.io_prestos_crd.yaml
 ```
 *Step 4:* Update the Operator yaml with image name 
 ```bash
@@ -53,7 +53,7 @@ $ kubectl apply -f deploy/operator.yaml
 Deploy the presto cluster
 ```bash
 $ ## Deploy Presto
-$ kubectl apply -f deploy/crds/falarica_prestodb.yaml  
+$ kubectl apply -f deploy/crds/prestodb.yaml  
 ```
 
 ## Further Details 
@@ -69,6 +69,5 @@ $ kubectl apply -f deploy/crds/falarica_prestodb.yaml
 
 ## Community support
 
-* [Slack](https://join.slack.com/t/falarica/shared_invite/zt-gql1dl9i-mm6lOJYgsEUuF6JXIgxCcA) ![Slack](http://i.imgur.com/h3sc6GM.png)
+<TODO>
 
-* [contact@falarica.io](contact@falarica.io)

@@ -17,14 +17,14 @@ Name:         mycluster
 Namespace:    default
 Labels:       <none>
 Annotations:  kubectl.kubernetes.io/last-applied-configuration:
-                {"apiVersion":"falarica.io/v1alpha1","kind":"Presto","metadata":{"annotations":{},"name":"mycluster","namespace":"default"},"spec":{"addit...
-API Version:  falarica.io/v1alpha1
+                {"apiVersion":"prestodb.io/v1alpha1","kind":"Presto","metadata":{"annotations":{},"name":"mycluster","namespace":"default"},"spec":{"addit...
+API Version:  prestodb.io/v1alpha1
 Kind:         Presto
 Metadata:
   Creation Timestamp:  2020-06-16T10:05:32Z
   Generation:          1
   Resource Version:    62569
-  Self Link:           /apis/falarica.io/v1alpha1/namespaces/default/prestos/mycluster
+  Self Link:           /apis/prestodb.io/v1alpha1/namespaces/default/prestos/mycluster
   UID:                 ea4e17e6-afb8-11ea-af85-42010a80010e
 Spec:
   Additional Presto Prop Files:

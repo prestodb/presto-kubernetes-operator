@@ -8,7 +8,7 @@ With autoscaling, initially the `spec.worker.count` number of workers are create
 
 A sample snippet of the Presto YAML. 
 ```bash
-apiVersion: falarica.io/v1alpha1
+apiVersion: prestodb.io/v1alpha1
 kind: Presto
 metadata:
   name: mycluster

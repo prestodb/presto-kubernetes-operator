@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/falarica/steerd-presto-operator/pkg/apis"
-	"github.com/falarica/steerd-presto-operator/pkg/controller"
-	"github.com/falarica/steerd-presto-operator/pkg/controller/presto"
+	"github.com/prestodb/presto-kubernetes-operator/pkg/apis"
+	"github.com/prestodb/presto-kubernetes-operator/pkg/controller"
+	"github.com/prestodb/presto-kubernetes-operator/pkg/controller/presto"
 	apimachineryruntime "k8s.io/apimachinery/pkg/runtime"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	metrics "k8s.io/metrics/pkg/client/clientset/versioned/typed/metrics/v1beta1"

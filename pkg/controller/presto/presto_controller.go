@@ -3,7 +3,7 @@ package presto
 import (
 	"context"
 	"fmt"
-	falaricav1alpha1 "github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1"
+	falaricav1alpha1 "github.com/prestodb/presto-kubernetes-operator/pkg/apis/falarica/v1alpha1"
 	"github.com/go-logr/logr"
 	"github.com/google/uuid"
 	v1 "k8s.io/api/apps/v1"

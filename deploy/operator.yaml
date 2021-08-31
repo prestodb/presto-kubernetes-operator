@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: steerd-presto-operator
+  name: presto-kubernetes-operator
   namespace: default
 
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: steerd-presto-operator
+  name: presto-kubernetes-operator
 rules:
   - apiGroups: [""] # "" indicates the core API group
     resources: ["pods", "services", "events", "services/finalizers", "endpoints", "persistentvolumeclaims", "configmaps", "secrets"]
@@ -16,7 +16,7 @@ rules:
   - apiGroups: ["apps"]
     resources: ["replicasets"]
     verbs: ["*"]
-  - apiGroups: ["falarica.io"]
+  - apiGroups: ["prestodb.io"]
     resources: ["prestos", "prestos/status"]
     verbs: ["*"]
   - apiGroups: ["autoscaling"]
@@ -30,37 +30,37 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: steerd-presto-operator
+  name: presto-kubernetes-operator
   namespace: default
 subjects:
   - kind: ServiceAccount
     namespace: default
-    name: steerd-presto-operator
+    name: presto-kubernetes-operator
 roleRef:
   kind: ClusterRole
-  name: steerd-presto-operator
+  name: presto-kubernetes-operator
   apiGroup: rbac.authorization.k8s.io
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: steerd-presto-operator
+  name: presto-kubernetes-operator
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: steerd-presto-operator
+      name: presto-kubernetes-operator
   template:
     metadata:
       labels:
-        name: steerd-presto-operator
+        name: presto-kubernetes-operator
     spec:
-      serviceAccountName: steerd-presto-operator
+      serviceAccountName: presto-kubernetes-operator
       containers:
-        - name: steerd-presto-operator
+        - name: presto-kubernetes-operator
           # Replace this with the built image name
-          image: falarica/steerd-presto-operator:0.1
-          command: [ "/bin/steerd-presto-operator" ]
+          image: prestodb/presto-kubernetes-operator:0.1
+          command: [ "/bin/presto-kubernetes-operator" ]
           imagePullPolicy: Always

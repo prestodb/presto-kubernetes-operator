@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"github.com/falarica/steerd-presto-operator/pkg/controller/presto"
+	"github.com/prestodb/presto-kubernetes-operator/pkg/controller/presto"
 )
 
 func init() {

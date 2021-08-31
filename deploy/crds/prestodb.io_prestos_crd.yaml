@@ -1,7 +1,7 @@
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
-  name: prestos.falarica.io
+  name: prestos.prestodb.io
 spec:
   additionalPrinterColumns:
   - JSONPath: .status.coordinatorAddress
@@ -22,7 +22,7 @@ spec:
   - JSONPath: .status.currentWorkers
     name: CurrentWorkers
     type: string
-  group: falarica.io
+  group: prestodb.io
   names:
     kind: Presto
     listKind: PrestoList
