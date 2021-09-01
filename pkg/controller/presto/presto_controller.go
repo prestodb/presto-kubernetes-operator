@@ -3,7 +3,7 @@ package presto
 import (
 	"context"
 	"fmt"
-	falaricav1alpha1 "github.com/prestodb/presto-kubernetes-operator/pkg/apis/falarica/v1alpha1"
+	prestodbv1alpha1 "github.com/prestodb/presto-kubernetes-operator/pkg/apis/prestodb/v1alpha1"
 	"github.com/go-logr/logr"
 	"github.com/google/uuid"
 	v1 "k8s.io/api/apps/v1"
@@ -95,14 +95,14 @@ func add(mgr manager.Manager, r ReconcilePresto) error {
 	}
 
 	// Watch for changes to primary resource Presto
-	err = c.Watch(&source.Kind{Type: &falaricav1alpha1.Presto{}}, &handler.EnqueueRequestForObject{}, GenerationChangedPredicate{})
+	err = c.Watch(&source.Kind{Type: &prestodbv1alpha1.Presto{}}, &handler.EnqueueRequestForObject{}, GenerationChangedPredicate{})
 	if err != nil {
 		return err
 	}
 
 	err = c.Watch(&source.Kind{Type: &corev1.Service{}}, &handler.EnqueueRequestForOwner{
 		IsController: true,
-		OwnerType:    &falaricav1alpha1.Presto{},
+		OwnerType:    &prestodbv1alpha1.Presto{},
 	})
 	if err != nil {
 		return err
@@ -110,7 +110,7 @@ func add(mgr manager.Manager, r ReconcilePresto) error {
 
 	err = c.Watch(&source.Kind{Type: &corev1.ConfigMap{}}, &handler.EnqueueRequestForOwner{
 		IsController: true,
-		OwnerType:    &falaricav1alpha1.Presto{},
+		OwnerType:    &prestodbv1alpha1.Presto{},
 	})
 	if err != nil {
 		return err
@@ -118,7 +118,7 @@ func add(mgr manager.Manager, r ReconcilePresto) error {
 
 	err = c.Watch(&source.Kind{Type: &v1.ReplicaSet{}}, &handler.EnqueueRequestForOwner{
 		IsController: true,
-		OwnerType:    &falaricav1alpha1.Presto{},
+		OwnerType:    &prestodbv1alpha1.Presto{},
 	})
 	if err != nil {
 		return err
@@ -148,7 +148,7 @@ type ReconcilePresto struct {
 func (r *ReconcilePresto) Reconcile(request reconcile.Request) (reconcile.Result, error) {
 	ctx := context.Background()
 	_ = r.log.WithValues("deployment", request.NamespacedName)
-	presto := &falaricav1alpha1.Presto{}
+	presto := &prestodbv1alpha1.Presto{}
 	err := r.client.Get(ctx, request.NamespacedName, presto)
 	if err != nil {
 		if errors.IsNotFound(err) {
@@ -260,12 +260,12 @@ func (r *ReconcilePresto) Reconcile(request reconcile.Request) (reconcile.Result
 	_, coordinatorPodPhase := r.getCoordinatorPodPhase(presto, baseLabels)
 	if coordinatorPodPhase == corev1.PodPending {
 		r.updateStatus(presto, ctx,ClusterUpdateAction{
-			clusterState: falaricav1alpha1.ClusterPending,
+			clusterState: prestodbv1alpha1.ClusterPending,
 			workerReplicaSet: workerReplicaSet,
 		})
 	} else if coordinatorPodPhase == corev1.PodFailed {
 		r.updateStatus(presto, ctx,ClusterUpdateAction{
-			clusterState: falaricav1alpha1.ClusterFailedState,
+			clusterState: prestodbv1alpha1.ClusterFailedState,
 			workerReplicaSet: workerReplicaSet,
 		})
 	}else if coordinatorPodPhase == corev1.PodRunning {
@@ -273,21 +273,21 @@ func (r *ReconcilePresto) Reconcile(request reconcile.Request) (reconcile.Result
 		coordinatorCPU := fmt.Sprintf("%d%%",r.getCPUUsage(presto, true))
 
 		r.updateStatus(presto, ctx,ClusterUpdateAction{
-			clusterState: falaricav1alpha1.ClusterReadyState,
+			clusterState: prestodbv1alpha1.ClusterReadyState,
 			workerReplicaSet: workerReplicaSet,
 			workerCPUUsage: &workerCPU,
 			coordinatorCPUUsage: &coordinatorCPU,
 		})
 	} else {
 		r.updateStatus(presto, ctx,ClusterUpdateAction{
-			clusterState: falaricav1alpha1.ClusterUnknown,
+			clusterState: prestodbv1alpha1.ClusterUnknown,
 			workerReplicaSet: workerReplicaSet,
 		})
 	}
 	return ctrl.Result{}, nil
 }
 
-func (r *ReconcilePresto) headlessServiceConfig(presto *falaricav1alpha1.Presto,
+func (r *ReconcilePresto) headlessServiceConfig(presto *prestodbv1alpha1.Presto,
 	baseLabels map[string]string,
 	ctx context.Context) (error, bool) {
 	changesMade := false
@@ -299,7 +299,7 @@ func (r *ReconcilePresto) headlessServiceConfig(presto *falaricav1alpha1.Presto,
 		errorReason := fmt.Sprintf("Failed to create headless service for pods %s", err.Error())
 		r.updateStatus(presto, ctx,ClusterUpdateAction{
 			errorReason: &errorReason,
-			clusterState: falaricav1alpha1.ClusterFailedState,
+			clusterState: prestodbv1alpha1.ClusterFailedState,
 		})
 		return err, changesMade
 	} else {
@@ -313,14 +313,14 @@ func (r *ReconcilePresto) headlessServiceConfig(presto *falaricav1alpha1.Presto,
 			headlessSvc := getPodDiscoveryServiceName(presto.Status.Uuid)
 			r.updateStatus(presto, ctx,ClusterUpdateAction{
 				headlessService: &headlessSvc,
-				clusterState: falaricav1alpha1.ClusterPending,
+				clusterState: prestodbv1alpha1.ClusterPending,
 			})
 		}
 	}
 	return err, changesMade
 }
 
-func (r *ReconcilePresto) serviceConfig(presto *falaricav1alpha1.Presto,
+func (r *ReconcilePresto) serviceConfig(presto *prestodbv1alpha1.Presto,
 	baseLabels map[string]string,
 	ctx context.Context) (error, bool, *corev1.Service) {
 	changesMade := false
@@ -332,7 +332,7 @@ func (r *ReconcilePresto) serviceConfig(presto *falaricav1alpha1.Presto,
 		errorReason := fmt.Sprintf("Failed to create service for pods %s", err.Error())
 		r.updateStatus(presto, ctx,ClusterUpdateAction{
 			errorReason: &errorReason,
-			clusterState: falaricav1alpha1.ClusterFailedState,
+			clusterState: prestodbv1alpha1.ClusterFailedState,
 		})
 		return err, changesMade, nil
 	} else {
@@ -345,14 +345,14 @@ func (r *ReconcilePresto) serviceConfig(presto *falaricav1alpha1.Presto,
 		if created || len(presto.Status.CoordinatorAddress) == 0 {
 			r.updateStatus(presto, ctx,ClusterUpdateAction{
 				service: service,
-				clusterState: falaricav1alpha1.ClusterPending,
+				clusterState: prestodbv1alpha1.ClusterPending,
 			})
 		}
 	}
 	return err, changesMade, service
 }
 
-func (r *ReconcilePresto) coordinatorConfig(presto *falaricav1alpha1.Presto,
+func (r *ReconcilePresto) coordinatorConfig(presto *prestodbv1alpha1.Presto,
 	baseLabels map[string]string,
 	ctx context.Context) (error, bool) {
 	created, err := createCoordinatorConfig(presto, r.client, baseLabels)
@@ -361,7 +361,7 @@ func (r *ReconcilePresto) coordinatorConfig(presto *falaricav1alpha1.Presto,
 		errorReason := fmt.Sprintf("Failed to create coordinator config map %s", err.Error())
 		r.updateStatus(presto, ctx,ClusterUpdateAction{
 			errorReason: &errorReason,
-			clusterState: falaricav1alpha1.ClusterFailedState,
+			clusterState: prestodbv1alpha1.ClusterFailedState,
 		})
 		r.eventRecorder.Eventf(presto, corev1.EventTypeWarning, "Failed",
 			"failed to create coordinator config map %s", err.Error())
@@ -371,7 +371,7 @@ func (r *ReconcilePresto) coordinatorConfig(presto *falaricav1alpha1.Presto,
 		cm := getCoordinatorConfigMapName(presto.Status.Uuid)
 		r.updateStatus(presto, ctx,ClusterUpdateAction{
 			coordinatorConfMap: &cm,
-			clusterState: falaricav1alpha1.ClusterPending,
+			clusterState: prestodbv1alpha1.ClusterPending,
 		})
 		r.eventRecorder.Eventf(presto, corev1.EventTypeNormal, "Created",
 			"Created Coordinator Config. %s", cm)
@@ -379,7 +379,7 @@ func (r *ReconcilePresto) coordinatorConfig(presto *falaricav1alpha1.Presto,
 	}
 	return nil, created
 }
-func (r *ReconcilePresto) workerConfig(presto *falaricav1alpha1.Presto,
+func (r *ReconcilePresto) workerConfig(presto *prestodbv1alpha1.Presto,
 	baseLabels map[string]string,
 	ctx context.Context) (error, bool) {
 	created, err := createWorkerConfig(presto, r.client, baseLabels)
@@ -388,7 +388,7 @@ func (r *ReconcilePresto) workerConfig(presto *falaricav1alpha1.Presto,
 		errorReason := fmt.Sprintf("Failed to create worker config map %s", err.Error())
 		r.updateStatus(presto, ctx,ClusterUpdateAction{
 			errorReason: &errorReason,
-			clusterState: falaricav1alpha1.ClusterFailedState,
+			clusterState: prestodbv1alpha1.ClusterFailedState,
 		})
 		r.eventRecorder.Eventf(presto, corev1.EventTypeWarning, "Failed",
 			"Failed to create worker config map %s", err.Error())
@@ -398,7 +398,7 @@ func (r *ReconcilePresto) workerConfig(presto *falaricav1alpha1.Presto,
 		wm := getWorkerConfigMapName(presto.Status.Uuid)
 		r.updateStatus(presto, ctx,ClusterUpdateAction{
 			workerConfMap: &wm,
-			clusterState: falaricav1alpha1.ClusterPending,
+			clusterState: prestodbv1alpha1.ClusterPending,
 		})
 		r.eventRecorder.Eventf(presto, corev1.EventTypeNormal, "Created",
 			"Created Worker Config. %s", wm)
@@ -406,7 +406,7 @@ func (r *ReconcilePresto) workerConfig(presto *falaricav1alpha1.Presto,
 	}
 	return nil, created
 }
-func (r *ReconcilePresto) catalogConfig(presto *falaricav1alpha1.Presto,
+func (r *ReconcilePresto) catalogConfig(presto *prestodbv1alpha1.Presto,
 	baseLabels map[string]string,
 	ctx context.Context) (error, bool) {
 	created, err := createCatalogConfig(presto, r, baseLabels)
@@ -415,7 +415,7 @@ func (r *ReconcilePresto) catalogConfig(presto *falaricav1alpha1.Presto,
 		errorReason := fmt.Sprintf("Failed to create catalog config map %s", err.Error())
 		r.updateStatus(presto, ctx,ClusterUpdateAction{
 			errorReason: &errorReason,
-			clusterState: falaricav1alpha1.ClusterFailedState,
+			clusterState: prestodbv1alpha1.ClusterFailedState,
 		})
 		r.eventRecorder.Eventf(presto, corev1.EventTypeWarning, "Failed",
 			"Failed to create catalog config map %s", err.Error())
@@ -425,7 +425,7 @@ func (r *ReconcilePresto) catalogConfig(presto *falaricav1alpha1.Presto,
 		cc := getCatalogConfigMapName(presto.Status.Uuid)
 		r.updateStatus(presto, ctx,ClusterUpdateAction{
 			catalogConfMap: &cc,
-			clusterState: falaricav1alpha1.ClusterPending,
+			clusterState: prestodbv1alpha1.ClusterPending,
 		})
 		r.eventRecorder.Eventf(presto, corev1.EventTypeNormal, "Created",
 			"Created Catalog Config. %s", cc)
@@ -434,7 +434,7 @@ func (r *ReconcilePresto) catalogConfig(presto *falaricav1alpha1.Presto,
 	}
 	return nil, created
 }
-func (r *ReconcilePresto) coordinatorReplicaset(presto *falaricav1alpha1.Presto,
+func (r *ReconcilePresto) coordinatorReplicaset(presto *prestodbv1alpha1.Presto,
 	baseLabels map[string]string,
 	ctx context.Context) (error, bool) {
 	_, created, err := createUpdateReplicaSetForCoordinator(r, presto,
@@ -444,7 +444,7 @@ func (r *ReconcilePresto) coordinatorReplicaset(presto *falaricav1alpha1.Presto,
 		errorReason := fmt.Sprintf("Failed to create coordinator replicaset %s", err.Error())
 		r.updateStatus(presto, ctx,ClusterUpdateAction{
 			errorReason: &errorReason,
-			clusterState: falaricav1alpha1.ClusterFailedState,
+			clusterState: prestodbv1alpha1.ClusterFailedState,
 		})
 		r.eventRecorder.Eventf(presto, corev1.EventTypeWarning, "Failed",
 			"Failed to create/update coordinator replicaset %s", err.Error())
@@ -454,7 +454,7 @@ func (r *ReconcilePresto) coordinatorReplicaset(presto *falaricav1alpha1.Presto,
 		cr := getCoordinatorReplicaset(presto.Status.Uuid)
 		r.updateStatus(presto, ctx,ClusterUpdateAction{
 			coordinatorReplicaSetName: &cr,
-			clusterState: falaricav1alpha1.ClusterPending,
+			clusterState: prestodbv1alpha1.ClusterPending,
 		})
 		r.eventRecorder.Eventf(presto, corev1.EventTypeNormal, "Created",
 			"Created Coordinator Replicaset. %s", cr)
@@ -462,7 +462,7 @@ func (r *ReconcilePresto) coordinatorReplicaset(presto *falaricav1alpha1.Presto,
 	}
 	return nil, created
 }
-func (r *ReconcilePresto) workerReplicaset(presto *falaricav1alpha1.Presto,
+func (r *ReconcilePresto) workerReplicaset(presto *prestodbv1alpha1.Presto,
 	baseLabels map[string]string,
 	ctx context.Context) (error, bool, *v1.ReplicaSet) {
 	changesMade := false
@@ -472,7 +472,7 @@ func (r *ReconcilePresto) workerReplicaset(presto *falaricav1alpha1.Presto,
 		errorReason := fmt.Sprintf("Failed to create worker replicaset %s", err.Error())
 		r.updateStatus(presto, ctx,ClusterUpdateAction{
 			errorReason: &errorReason,
-			clusterState: falaricav1alpha1.ClusterFailedState,
+			clusterState: prestodbv1alpha1.ClusterFailedState,
 		})
 		r.eventRecorder.Eventf(presto, corev1.EventTypeWarning, "Failed",
 			"Failed to create worker replicaset %s", err.Error())
@@ -484,7 +484,7 @@ func (r *ReconcilePresto) workerReplicaset(presto *falaricav1alpha1.Presto,
 			"Updated Worker Replicaset. %s ", workerReplicaSet.Name)
 		r.updateStatus(presto, ctx,ClusterUpdateAction{
 			workerReplicaSet: workerReplicaSet,
-			clusterState: falaricav1alpha1.ClusterPending,
+			clusterState: prestodbv1alpha1.ClusterPending,
 		})
 		changesMade = true
 	}
@@ -492,7 +492,7 @@ func (r *ReconcilePresto) workerReplicaset(presto *falaricav1alpha1.Presto,
 		r.log.Info("created worker replicaset")
 		r.updateStatus(presto, ctx,ClusterUpdateAction{
 			workerReplicaSet: workerReplicaSet,
-			clusterState: falaricav1alpha1.ClusterPending,
+			clusterState: prestodbv1alpha1.ClusterPending,
 		})
 		r.eventRecorder.Eventf(presto, corev1.EventTypeNormal, "Created",
 			"Created Worker Replicaset. %s", workerReplicaSet.Name)
@@ -501,7 +501,7 @@ func (r *ReconcilePresto) workerReplicaset(presto *falaricav1alpha1.Presto,
 	return nil, changesMade, workerReplicaSet
 }
 
-func (r *ReconcilePresto) hpaReplicaset(presto *falaricav1alpha1.Presto,
+func (r *ReconcilePresto) hpaReplicaset(presto *prestodbv1alpha1.Presto,
 	baseLabels map[string]string,
 	ctx context.Context,
 	workerReplicaSet *v1.ReplicaSet) (error, bool) {
@@ -512,7 +512,7 @@ func (r *ReconcilePresto) hpaReplicaset(presto *falaricav1alpha1.Presto,
 		errorReason := fmt.Sprintf("Failed to create autoscale config %s", err.Error())
 		r.updateStatus(presto, ctx,ClusterUpdateAction{
 			errorReason: &errorReason,
-			clusterState: falaricav1alpha1.ClusterFailedState,
+			clusterState: prestodbv1alpha1.ClusterFailedState,
 		})
 		r.eventRecorder.Eventf(presto, corev1.EventTypeWarning, "Failed",
 			"failed to create/update autoscale replicaset %s", err.Error())
@@ -522,7 +522,7 @@ func (r *ReconcilePresto) hpaReplicaset(presto *falaricav1alpha1.Presto,
 		hpaName := getHPAName(presto.Status.Uuid)
 		r.updateStatus(presto, ctx,ClusterUpdateAction{
 			hpaName: &hpaName,
-			clusterState: falaricav1alpha1.ClusterPending,
+			clusterState: prestodbv1alpha1.ClusterPending,
 		})
 		r.eventRecorder.Eventf(presto, corev1.EventTypeNormal, "Created",
 			"Created HPA. %s", hpaName)
@@ -541,7 +541,7 @@ func (r *ReconcilePresto) hpaReplicaset(presto *falaricav1alpha1.Presto,
 			"Deleted HPA. %s", hpaName)
 		r.updateStatus(presto, ctx,ClusterUpdateAction{
 			hpaName: &hpa,
-			clusterState: falaricav1alpha1.ClusterPending,
+			clusterState: prestodbv1alpha1.ClusterPending,
 		})
 		changesMade = true
 	}
@@ -557,13 +557,13 @@ type ClusterUpdateAction struct  {
 	coordinatorReplicaSetName *string
 	hpaName *string
 	workerReplicaSet *v1.ReplicaSet
-	clusterState falaricav1alpha1.ClusterState
+	clusterState prestodbv1alpha1.ClusterState
 	errorReason *string
 	coordinatorCPUUsage *string
 	workerCPUUsage *string
 }
 
-func (r *ReconcilePresto) updateStatus(presto *falaricav1alpha1.Presto,
+func (r *ReconcilePresto) updateStatus(presto *prestodbv1alpha1.Presto,
 	ctx context.Context, updateAction ClusterUpdateAction) (bool, error) {
 	prestoCopy, err := r.getPresto(presto)
 	if err != nil {
@@ -644,7 +644,7 @@ func (r *ReconcilePresto) updateStatus(presto *falaricav1alpha1.Presto,
 	return update, nil
 }
 
-func (r *ReconcilePresto) getCPUUsage(presto *falaricav1alpha1.Presto,
+func (r *ReconcilePresto) getCPUUsage(presto *prestodbv1alpha1.Presto,
 	isCoordinator bool) int64 {
 	var podLabels map[string]string
 	var containerPrefix string
@@ -696,7 +696,7 @@ func (r *ReconcilePresto) getCPUUsage(presto *falaricav1alpha1.Presto,
 	}
 }
 
-func (r* ReconcilePresto) getCoordinatorPodPhase(presto *falaricav1alpha1.Presto,
+func (r* ReconcilePresto) getCoordinatorPodPhase(presto *prestodbv1alpha1.Presto,
 	baseLabels map[string]string) (error, corev1.PodPhase) {
 	coordinatorPodList := &corev1.PodList{}
 	err := r.client.List(context.TODO(),
@@ -714,8 +714,8 @@ func (r* ReconcilePresto) getCoordinatorPodPhase(presto *falaricav1alpha1.Presto
 	}
 	return nil, corev1.PodUnknown
 }
-func (r *ReconcilePresto) getPresto(oldPrestoObj *falaricav1alpha1.Presto) (*falaricav1alpha1.Presto, error) {
-	prestoCluster := &falaricav1alpha1.PrestoList{}
+func (r *ReconcilePresto) getPresto(oldPrestoObj *prestodbv1alpha1.Presto) (*prestodbv1alpha1.Presto, error) {
+	prestoCluster := &prestodbv1alpha1.PrestoList{}
 	err := r.client.List(context.TODO(),
 		prestoCluster,
 		&client.ListOptions{

@@ -11,22 +11,22 @@ import (
 
 func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenAPIDefinition {
 	return map[string]common.OpenAPIDefinition{
-		"github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.AutoscalingSpec": schema_pkg_apis_falarica_v1alpha1_AutoscalingSpec(ref),
-		"github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.CatalogList":     schema_pkg_apis_falarica_v1alpha1_CatalogList(ref),
-		"github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.CatalogSecret":   schema_pkg_apis_falarica_v1alpha1_CatalogSecret(ref),
-		"github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.CatalogSpec":     schema_pkg_apis_falarica_v1alpha1_CatalogSpec(ref),
-		"github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.CoordinatorSpec": schema_pkg_apis_falarica_v1alpha1_CoordinatorSpec(ref),
-		"github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.HMSSpec":         schema_pkg_apis_falarica_v1alpha1_HMSSpec(ref),
-		"github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.ImageSpec":       schema_pkg_apis_falarica_v1alpha1_ImageSpec(ref),
-		"github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.Presto":          schema_pkg_apis_falarica_v1alpha1_Presto(ref),
-		"github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.PrestoSpec":      schema_pkg_apis_falarica_v1alpha1_PrestoSpec(ref),
-		"github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.PrestoStatus":    schema_pkg_apis_falarica_v1alpha1_PrestoStatus(ref),
-		"github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.ServiceSpec":     schema_pkg_apis_falarica_v1alpha1_ServiceSpec(ref),
-		"github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.WorkerSpec":      schema_pkg_apis_falarica_v1alpha1_WorkerSpec(ref),
+		"./pkg/apis/prestodb/v1alpha1.AutoscalingSpec": schema_pkg_apis_prestodb_v1alpha1_AutoscalingSpec(ref),
+		"./pkg/apis/prestodb/v1alpha1.CatalogList":     schema_pkg_apis_prestodb_v1alpha1_CatalogList(ref),
+		"./pkg/apis/prestodb/v1alpha1.CatalogSecret":   schema_pkg_apis_prestodb_v1alpha1_CatalogSecret(ref),
+		"./pkg/apis/prestodb/v1alpha1.CatalogSpec":     schema_pkg_apis_prestodb_v1alpha1_CatalogSpec(ref),
+		"./pkg/apis/prestodb/v1alpha1.CoordinatorSpec": schema_pkg_apis_prestodb_v1alpha1_CoordinatorSpec(ref),
+		"./pkg/apis/prestodb/v1alpha1.HMSSpec":         schema_pkg_apis_prestodb_v1alpha1_HMSSpec(ref),
+		"./pkg/apis/prestodb/v1alpha1.ImageSpec":       schema_pkg_apis_prestodb_v1alpha1_ImageSpec(ref),
+		"./pkg/apis/prestodb/v1alpha1.Presto":          schema_pkg_apis_prestodb_v1alpha1_Presto(ref),
+		"./pkg/apis/prestodb/v1alpha1.PrestoSpec":      schema_pkg_apis_prestodb_v1alpha1_PrestoSpec(ref),
+		"./pkg/apis/prestodb/v1alpha1.PrestoStatus":    schema_pkg_apis_prestodb_v1alpha1_PrestoStatus(ref),
+		"./pkg/apis/prestodb/v1alpha1.ServiceSpec":     schema_pkg_apis_prestodb_v1alpha1_ServiceSpec(ref),
+		"./pkg/apis/prestodb/v1alpha1.WorkerSpec":      schema_pkg_apis_prestodb_v1alpha1_WorkerSpec(ref),
 	}
 }
 
-func schema_pkg_apis_falarica_v1alpha1_AutoscalingSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_pkg_apis_prestodb_v1alpha1_AutoscalingSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
@@ -62,7 +62,7 @@ func schema_pkg_apis_falarica_v1alpha1_AutoscalingSpec(ref common.ReferenceCallb
 	}
 }
 
-func schema_pkg_apis_falarica_v1alpha1_CatalogList(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_pkg_apis_prestodb_v1alpha1_CatalogList(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
@@ -75,7 +75,7 @@ func schema_pkg_apis_falarica_v1alpha1_CatalogList(ref common.ReferenceCallback)
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
-										Ref: ref("github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.CatalogSecret"),
+										Ref: ref("./pkg/apis/prestodb/v1alpha1.CatalogSecret"),
 									},
 								},
 							},
@@ -87,7 +87,7 @@ func schema_pkg_apis_falarica_v1alpha1_CatalogList(ref common.ReferenceCallback)
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
-										Ref: ref("github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.CatalogSpec"),
+										Ref: ref("./pkg/apis/prestodb/v1alpha1.CatalogSpec"),
 									},
 								},
 							},
@@ -97,11 +97,11 @@ func schema_pkg_apis_falarica_v1alpha1_CatalogList(ref common.ReferenceCallback)
 			},
 		},
 		Dependencies: []string{
-			"github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.CatalogSecret", "github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.CatalogSpec"},
+			"./pkg/apis/prestodb/v1alpha1.CatalogSecret", "./pkg/apis/prestodb/v1alpha1.CatalogSpec"},
 	}
 }
 
-func schema_pkg_apis_falarica_v1alpha1_CatalogSecret(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_pkg_apis_prestodb_v1alpha1_CatalogSecret(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
@@ -126,7 +126,7 @@ func schema_pkg_apis_falarica_v1alpha1_CatalogSecret(ref common.ReferenceCallbac
 	}
 }
 
-func schema_pkg_apis_falarica_v1alpha1_CatalogSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_pkg_apis_prestodb_v1alpha1_CatalogSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
@@ -159,7 +159,7 @@ func schema_pkg_apis_falarica_v1alpha1_CatalogSpec(ref common.ReferenceCallback)
 	}
 }
 
-func schema_pkg_apis_falarica_v1alpha1_CoordinatorSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_pkg_apis_prestodb_v1alpha1_CoordinatorSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
@@ -234,7 +234,7 @@ func schema_pkg_apis_falarica_v1alpha1_CoordinatorSpec(ref common.ReferenceCallb
 	}
 }
 
-func schema_pkg_apis_falarica_v1alpha1_HMSSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_pkg_apis_prestodb_v1alpha1_HMSSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
@@ -244,7 +244,7 @@ func schema_pkg_apis_falarica_v1alpha1_HMSSpec(ref common.ReferenceCallback) com
 	}
 }
 
-func schema_pkg_apis_falarica_v1alpha1_ImageSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_pkg_apis_prestodb_v1alpha1_ImageSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
@@ -270,7 +270,7 @@ func schema_pkg_apis_falarica_v1alpha1_ImageSpec(ref common.ReferenceCallback) c
 	}
 }
 
-func schema_pkg_apis_falarica_v1alpha1_Presto(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_pkg_apis_prestodb_v1alpha1_Presto(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
@@ -298,23 +298,23 @@ func schema_pkg_apis_falarica_v1alpha1_Presto(ref common.ReferenceCallback) comm
 					},
 					"spec": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.PrestoSpec"),
+							Ref: ref("./pkg/apis/prestodb/v1alpha1.PrestoSpec"),
 						},
 					},
 					"status": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.PrestoStatus"),
+							Ref: ref("./pkg/apis/prestodb/v1alpha1.PrestoStatus"),
 						},
 					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.PrestoSpec", "github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.PrestoStatus", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
+			"./pkg/apis/prestodb/v1alpha1.PrestoSpec", "./pkg/apis/prestodb/v1alpha1.PrestoStatus", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
 	}
 }
 
-func schema_pkg_apis_falarica_v1alpha1_PrestoSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_pkg_apis_prestodb_v1alpha1_PrestoSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
@@ -324,32 +324,32 @@ func schema_pkg_apis_falarica_v1alpha1_PrestoSpec(ref common.ReferenceCallback) 
 					"coordinator": {
 						SchemaProps: spec.SchemaProps{
 							Description: "INSERT ADDITIONAL SPEC FIELDS - desired state of Important: Run \"operator-sdk generate k8s\" to regenerate code after modifying this file Add custom validation using kubebuilder tags: https://book-v1.book.kubebuilder.io/beyond_basics/generating_crd.html\n\t+kubebuilder:validation:Required",
-							Ref:         ref("github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.CoordinatorSpec"),
+							Ref:         ref("./pkg/apis/prestodb/v1alpha1.CoordinatorSpec"),
 						},
 					},
 					"worker": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.WorkerSpec"),
+							Ref: ref("./pkg/apis/prestodb/v1alpha1.WorkerSpec"),
 						},
 					},
 					"catalogs": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.CatalogList"),
+							Ref: ref("./pkg/apis/prestodb/v1alpha1.CatalogList"),
 						},
 					},
 					"service": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.ServiceSpec"),
+							Ref: ref("./pkg/apis/prestodb/v1alpha1.ServiceSpec"),
 						},
 					},
 					"internalHiveMetaStore": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.HMSSpec"),
+							Ref: ref("./pkg/apis/prestodb/v1alpha1.HMSSpec"),
 						},
 					},
 					"imageDetails": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.ImageSpec"),
+							Ref: ref("./pkg/apis/prestodb/v1alpha1.ImageSpec"),
 						},
 					},
 					"additionalPrestoPropFiles": {
@@ -373,7 +373,7 @@ func schema_pkg_apis_falarica_v1alpha1_PrestoSpec(ref common.ReferenceCallback) 
 							Items: &spec.SchemaOrArray{
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
-										Ref: ref("github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.PrestoVolumeSpec"),
+										Ref: ref("./pkg/apis/prestodb/v1alpha1.PrestoVolumeSpec"),
 									},
 								},
 							},
@@ -384,11 +384,11 @@ func schema_pkg_apis_falarica_v1alpha1_PrestoSpec(ref common.ReferenceCallback) 
 			},
 		},
 		Dependencies: []string{
-			"github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.CatalogList", "github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.CoordinatorSpec", "github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.HMSSpec", "github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.ImageSpec", "github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.PrestoVolumeSpec", "github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.ServiceSpec", "github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.WorkerSpec"},
+			"./pkg/apis/prestodb/v1alpha1.CatalogList", "./pkg/apis/prestodb/v1alpha1.CoordinatorSpec", "./pkg/apis/prestodb/v1alpha1.HMSSpec", "./pkg/apis/prestodb/v1alpha1.ImageSpec", "./pkg/apis/prestodb/v1alpha1.PrestoVolumeSpec", "./pkg/apis/prestodb/v1alpha1.ServiceSpec", "./pkg/apis/prestodb/v1alpha1.WorkerSpec"},
 	}
 }
 
-func schema_pkg_apis_falarica_v1alpha1_PrestoStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_pkg_apis_prestodb_v1alpha1_PrestoStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
@@ -506,7 +506,7 @@ func schema_pkg_apis_falarica_v1alpha1_PrestoStatus(ref common.ReferenceCallback
 	}
 }
 
-func schema_pkg_apis_falarica_v1alpha1_ServiceSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_pkg_apis_prestodb_v1alpha1_ServiceSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
@@ -629,7 +629,7 @@ func schema_pkg_apis_falarica_v1alpha1_ServiceSpec(ref common.ReferenceCallback)
 	}
 }
 
-func schema_pkg_apis_falarica_v1alpha1_WorkerSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_pkg_apis_prestodb_v1alpha1_WorkerSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
@@ -688,7 +688,7 @@ func schema_pkg_apis_falarica_v1alpha1_WorkerSpec(ref common.ReferenceCallback) 
 					},
 					"autoscaling": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.AutoscalingSpec"),
+							Ref: ref("./pkg/apis/prestodb/v1alpha1.AutoscalingSpec"),
 						},
 					},
 				},
@@ -696,6 +696,6 @@ func schema_pkg_apis_falarica_v1alpha1_WorkerSpec(ref common.ReferenceCallback) 
 			},
 		},
 		Dependencies: []string{
-			"github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1.AutoscalingSpec"},
+			"./pkg/apis/prestodb/v1alpha1.AutoscalingSpec"},
 	}
 }

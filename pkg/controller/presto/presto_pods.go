@@ -3,7 +3,7 @@ package presto
 import (
 	"context"
 	"fmt"
-	falaricav1alpha1 "github.com/prestodb/presto-kubernetes-operator/pkg/apis/falarica/v1alpha1"
+	prestodbv1alpha1 "github.com/prestodb/presto-kubernetes-operator/pkg/apis/prestodb/v1alpha1"
 	v1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
@@ -14,7 +14,7 @@ import (
 )
 
 // returns replicaSet, created, updated, error
-func createUpdateReplicaSetForWorker(r *ReconcilePresto, presto *falaricav1alpha1.Presto,
+func createUpdateReplicaSetForWorker(r *ReconcilePresto, presto *prestodbv1alpha1.Presto,
 	lbls map[string]string) (*v1.ReplicaSet,bool, bool, error) {
 	updated := false
 	created := false
@@ -59,7 +59,7 @@ func createUpdateReplicaSetForWorker(r *ReconcilePresto, presto *falaricav1alpha
 	return replicaSet, created, updated, nil
 }
 
-func createReplicaSetForWorker(r *ReconcilePresto, presto *falaricav1alpha1.Presto,
+func createReplicaSetForWorker(r *ReconcilePresto, presto *prestodbv1alpha1.Presto,
 	lbls map[string]string, workerCount int32) (*v1.ReplicaSet, error) {
 	podSpec, err := getPrestoWorkerPod(r, presto)
 	if err != nil {
@@ -90,7 +90,7 @@ func createReplicaSetForWorker(r *ReconcilePresto, presto *falaricav1alpha1.Pres
 }
 
 // returns podCreated, podDeleted, error
-func getPrestoWorkerPod(r *ReconcilePresto, presto *falaricav1alpha1.Presto) (*corev1.PodSpec, error) {
+func getPrestoWorkerPod(r *ReconcilePresto, presto *prestodbv1alpha1.Presto) (*corev1.PodSpec, error) {
 	limitResource := corev1.ResourceList{}
 	requestResource := corev1.ResourceList{}
 	var err error
@@ -123,7 +123,7 @@ func getPrestoWorkerPod(r *ReconcilePresto, presto *falaricav1alpha1.Presto) (*c
 }
 
 
-func getReplicaSet(r *ReconcilePresto,presto *falaricav1alpha1.Presto,
+func getReplicaSet(r *ReconcilePresto,presto *prestodbv1alpha1.Presto,
 	getLabel func(string)(string, string)) (*v1.ReplicaSet, error) {
 	existingReplicaSet := &v1.ReplicaSetList{}
 	wk, wv := getLabel(presto.Status.Uuid)
@@ -147,7 +147,7 @@ func getReplicaSet(r *ReconcilePresto,presto *falaricav1alpha1.Presto,
 }
 
 // returns replicaSet, created, error
-func createUpdateReplicaSetForCoordinator(r *ReconcilePresto, presto *falaricav1alpha1.Presto,
+func createUpdateReplicaSetForCoordinator(r *ReconcilePresto, presto *prestodbv1alpha1.Presto,
 	lbls map[string]string) (*v1.ReplicaSet, bool, error) {
 	created := false
 	// Get the replicaSet with the name specified in PrestoCluster.spec
@@ -170,7 +170,7 @@ func createUpdateReplicaSetForCoordinator(r *ReconcilePresto, presto *falaricav1
 	return replicaSet, created, nil
 }
 
-func createReplicaSetForCoordinator(r *ReconcilePresto, presto *falaricav1alpha1.Presto,
+func createReplicaSetForCoordinator(r *ReconcilePresto, presto *prestodbv1alpha1.Presto,
 	lbls map[string]string) (*v1.ReplicaSet, error) {
 	podSpec, err := getPrestoCoordinatorPodSpec(r, presto, lbls)
 	if err != nil {
@@ -201,7 +201,7 @@ func createReplicaSetForCoordinator(r *ReconcilePresto, presto *falaricav1alpha1
 }
 
 //  returns whether the pod has been created or not
-func getPrestoCoordinatorPodSpec(r *ReconcilePresto, presto *falaricav1alpha1.Presto,
+func getPrestoCoordinatorPodSpec(r *ReconcilePresto, presto *prestodbv1alpha1.Presto,
 	labels map[string]string) (*corev1.PodSpec, error) {
 	limitResource := corev1.ResourceList{}
 	requestResource := corev1.ResourceList{}
@@ -235,7 +235,7 @@ func getPrestoCoordinatorPodSpec(r *ReconcilePresto, presto *falaricav1alpha1.Pr
 }
 
 // Returns podCreated, error
-func createPrestoPodSpec(r *ReconcilePresto, presto *falaricav1alpha1.Presto,
+func createPrestoPodSpec(r *ReconcilePresto, presto *prestodbv1alpha1.Presto,
 	isCoordinator bool, limitResource corev1.ResourceList,
 	requestResource corev1.ResourceList) *corev1.PodSpec {
 	imageName := presto.Spec.ImageDetails.Name
@@ -301,7 +301,7 @@ func createPrestoPodSpec(r *ReconcilePresto, presto *falaricav1alpha1.Presto,
 	return podSpec
 }
 
-func appendAdditionalVolumes(presto *falaricav1alpha1.Presto,
+func appendAdditionalVolumes(presto *prestodbv1alpha1.Presto,
 	vols *[]corev1.Volume) {
 	for _, volSpec := range presto.Spec.Volumes {
 		vol := corev1.Volume {
@@ -312,7 +312,7 @@ func appendAdditionalVolumes(presto *falaricav1alpha1.Presto,
 	}
 }
 
-func appendAdditionalVolumeMounts(presto *falaricav1alpha1.Presto,
+func appendAdditionalVolumeMounts(presto *prestodbv1alpha1.Presto,
 	volMounts *[]corev1.VolumeMount) {
 	for _, volSpec := range presto.Spec.Volumes {
 		volMount := corev1.VolumeMount{
@@ -327,7 +327,7 @@ func appendAdditionalVolumeMounts(presto *falaricav1alpha1.Presto,
 	}
 }
 
-func getHTTPSVolumeMount(presto *falaricav1alpha1.Presto,
+func getHTTPSVolumeMount(presto *prestodbv1alpha1.Presto,
 	podSpec *corev1.PodSpec) *corev1.VolumeMount {
 	httpsSecretVolume := corev1.Volume{
 		Name: getHTTPSSecretVolName(presto.Status.Uuid),

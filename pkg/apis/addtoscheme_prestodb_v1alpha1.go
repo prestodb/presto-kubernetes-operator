@@ -1,7 +1,7 @@
 package apis
 
 import (
-	"github.com/prestodb/presto-kubernetes-operator/pkg/apis/falarica/v1alpha1"
+	"github.com/prestodb/presto-kubernetes-operator/pkg/apis/prestodb/v1alpha1"
 )
 
 func init() {
