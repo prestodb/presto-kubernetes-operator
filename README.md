@@ -69,5 +69,5 @@ $ kubectl apply -f deploy/crds/prestodb.yaml
 
 ## Community support
 
-<TODO>
+[Slack](https://join.slack.com/t/prestodb/shared_invite/enQtNTQ3NjU2MTYyNDA2LTYyOTg3MzUyMWE1YTI3Njc5YjgxZjNiYTgxODAzYjI5YWMwYWE0MTZjYWFhNGMwNjczYjI3N2JhM2ExMGJlMWM) ![Slack](http://i.imgur.com/h3sc6GM.png)
 
