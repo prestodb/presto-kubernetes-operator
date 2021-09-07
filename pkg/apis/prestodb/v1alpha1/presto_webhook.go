@@ -13,7 +13,7 @@ import (
 var log = logf.Log.WithName("webhooklog")
 
 
-// +kubebuilder:webhook:verbs=create;update,path=/validate-falarica-v1alpha1-presto,mutating=false,failurePolicy=fail,groups=falarica.io,resources=prestos,versions=v1alpha1,name=validatorpresto.falarica.io
+// +kubebuilder:webhook:verbs=create;update,path=/validate-prestodb-v1alpha1-presto,mutating=false,failurePolicy=fail,groups=falarica.io,resources=prestos,versions=v1alpha1,name=validatorpresto.falarica.io
 
 func (r *Presto) SetupWebhookWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewWebhookManagedBy(mgr).
@@ -41,7 +41,7 @@ func (r *Presto) validatePrestoUpdate(old runtime.Object) error {
 		return nil
 	}
 	return apierrors.NewInvalid(
-		schema.GroupKind{Group: "falarica.io", Kind: "Presto"},
+		schema.GroupKind{Group: "prestodb.io", Kind: "Presto"},
 		r.Name, errs)
 }
 

@@ -2,7 +2,7 @@ package presto
 
 import (
 	"fmt"
-	"github.com/falarica/steerd-presto-operator/pkg/apis/falarica/v1alpha1"
+	"github.com/prestodb/presto-kubernetes-operator/pkg/apis/prestodb/v1alpha1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

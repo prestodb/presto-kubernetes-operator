@@ -44,7 +44,7 @@ spec.coordinator.httpsKeyPairPassword: Password of the Keystore. This must have 
 
 For e.g.
 ```bash 
-apiVersion: falarica.io/v1alpha1
+apiVersion: prestodb.io/v1alpha1
 kind: Presto
 metadata:
   name: mycluster

@@ -1,4 +1,4 @@
-module github.com/falarica/steerd-presto-operator
+module github.com/prestodb/presto-kubernetes-operator
 
 go 1.13
 

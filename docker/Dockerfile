@@ -2,13 +2,13 @@ FROM golang:1.13-alpine AS build
 
 
 RUN apk add --no-cache git
-COPY go.mod /go/src/github.com/falarica/steerd-presto-operator/
-WORKDIR /go/src/github.com/falarica/steerd-presto-operator/
+COPY go.mod /go/src/github.com/prestodb/presto-kubernetes-operator/
+WORKDIR /go/src/github.com/prestodb/presto-kubernetes-operator/
 RUN go mod download
 
-COPY . /go/src/github.com/falarica/steerd-presto-operator/
-RUN go build -o /bin/steerd-presto-operator  cmd/manager/main.go
+COPY . /go/src/github.com/prestodb/presto-kubernetes-operator/
+RUN go build -o /bin/presto-kubernetes-operator  cmd/manager/main.go
 
 FROM alpine:3.7
-COPY --from=build /bin/steerd-presto-operator /bin/steerd-presto-operator
-ENTRYPOINT ["/bin/steerd-presto-operator"]
+COPY --from=build /bin/presto-kubernetes-operator /bin/presto-kubernetes-operator
+ENTRYPOINT ["/bin/presto-kubernetes-operator"]
