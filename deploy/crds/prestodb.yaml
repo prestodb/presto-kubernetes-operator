@@ -6,6 +6,9 @@ spec:
   service:
     type: "LoadBalancer"
     port: 8100
+    serviceAnnotations:
+      service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+
   catalogs:
     catalogSpec:
       - name: hive
@@ -49,6 +52,11 @@ spec:
     httpsKeyPairSecretName: "prestokeystore"
     httpsKeyPairSecretKey: "prestoserverkeystore.jks"
     httpsKeyPairPassword: "password"
+    coordinatorPodAnnotations:
+      prometheus.io/port: "9000"
+      prometheus.io/scrape: "true"
+      prometheus.io/path: "/metrics"
+      
   worker:
     memoryLimit: "1Gi"
     cpuLimit: "0.25"
@@ -60,6 +68,10 @@ spec:
       targetCPUUtilizationPercentage: 30
     additionalProps:
       shutdown.grace-period: 10s
+    workerPodAnnotations:
+      prometheus.io/port: "9000"
+      prometheus.io/scrape: "true"
+      prometheus.io/path: "/metrics"
  # additionalPrestoPropFiles:
  #   resource-groups.properties:   
  #     "resource-groups.configuration-manager=file\n
