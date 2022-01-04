@@ -182,7 +182,7 @@ func createReplicaSetForCoordinator(r *ReconcilePresto, presto *prestodbv1alpha1
 			GenerateName: getCoordinatorReplicaset(presto.Status.Uuid),
 			Namespace:    presto.Namespace,
 			OwnerReferences: []metav1.OwnerReference{*getOwnerReference(presto)},
-			Labels: lbls,
+			Labels:          appendAdditionalLabels(lbls, presto.Spec.Coordinator.AdditionalLabels),
 		},
 		Spec: v1.ReplicaSetSpec{
 			Replicas: func() *int32 { i := int32(1); return &i }(),
@@ -193,7 +193,8 @@ func createReplicaSetForCoordinator(r *ReconcilePresto, presto *prestodbv1alpha1
 				ObjectMeta: metav1.ObjectMeta{
 					Namespace:    presto.Namespace,
 					OwnerReferences: []metav1.OwnerReference{*getOwnerReference(presto)},
-					Labels: lbls,
+					Labels:          appendAdditionalLabels(lbls, presto.Spec.Coordinator.AdditionalLabels),
+					Annotations:     presto.Spec.Coordinator.CoordinatorPodAnnotations,
 				},
 				Spec: *podSpec,
 			},

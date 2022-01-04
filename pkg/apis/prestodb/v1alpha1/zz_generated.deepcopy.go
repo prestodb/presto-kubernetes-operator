@@ -122,6 +122,20 @@ func (in *CoordinatorSpec) DeepCopyInto(out *CoordinatorSpec) {
 			(*out)[key] = val
 		}
 	}
+	if in.CoordinatorPodAnnotations != nil {
+		in, out := &in.CoordinatorPodAnnotations, &out.CoordinatorPodAnnotations
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+	if in.AdditionalLabels != nil {
+		in, out := &in.AdditionalLabels, &out.AdditionalLabels
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
 	return
 }
 

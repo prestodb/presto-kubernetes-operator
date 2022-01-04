@@ -93,7 +93,15 @@ spec:
               properties:
                 additionalJVMConfig:
                   type: string
+                additionalLabels:
+                  additionalProperties:
+                    type: string
+                  type: object
                 additionalProps:
+                  additionalProperties:
+                    type: string
+                  type: object
+                coordinatorPodAnnotations:
                   additionalProperties:
                     type: string
                   type: object
