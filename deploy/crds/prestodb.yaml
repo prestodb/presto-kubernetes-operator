@@ -49,6 +49,11 @@ spec:
     httpsKeyPairSecretName: "prestokeystore"
     httpsKeyPairSecretKey: "prestoserverkeystore.jks"
     httpsKeyPairPassword: "password"
+    tolerations:
+      - key: "presto-app-cluster"
+        operator: "Equal"
+        value: "true"
+        effect: "NoExecute"
   worker:
     memoryLimit: "1Gi"
     cpuLimit: "0.25"
@@ -60,6 +65,11 @@ spec:
       targetCPUUtilizationPercentage: 30
     additionalProps:
       shutdown.grace-period: 10s
+    tolerations:
+      - key: "presto-app-cluster"
+        operator: "Equal"
+        value: "true"
+        effect: "NoExecute"
  # additionalPrestoPropFiles:
  #   resource-groups.properties:   
  #     "resource-groups.configuration-manager=file\n
