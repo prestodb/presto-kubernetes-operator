@@ -336,6 +336,20 @@ func (in *ServiceSpec) DeepCopyInto(out *ServiceSpec) {
 		*out = new(v1.IPFamily)
 		**out = **in
 	}
+	if in.ServiceAnnotations != nil {
+		in, out := &in.ServiceAnnotations, &out.ServiceAnnotations
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
+	if in.AdditionalLabels != nil {
+		in, out := &in.AdditionalLabels, &out.AdditionalLabels
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
+	}
 	return
 }
 

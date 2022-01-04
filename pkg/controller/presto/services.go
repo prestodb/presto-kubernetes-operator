@@ -67,7 +67,8 @@ func createOrGetService(presto *v1alpha1.Presto, r *ReconcilePresto,
 		ObjectMeta: metav1.ObjectMeta{
 			Name:            getExternalServiceName(presto.Status.Uuid),
 			Namespace:       presto.Namespace,
-			Labels:          lbls,
+			Labels:          appendAdditionalLabels(lbls, presto.Spec.Service.AdditionalLabels),
+			Annotations:     presto.Spec.Service.ServiceAnnotations,
 			OwnerReferences: []metav1.OwnerReference{*getOwnerReference(presto)},
 		},
 		Spec: corev1.ServiceSpec{
