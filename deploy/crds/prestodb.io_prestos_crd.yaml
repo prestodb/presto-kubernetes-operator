@@ -1452,6 +1452,10 @@ spec:
               properties:
                 additionalJVMConfig:
                   type: string
+                additionalLabels:
+                  additionalProperties:
+                    type: string
+                  type: object
                 additionalProps:
                   additionalProperties:
                     type: string
@@ -1498,6 +1502,10 @@ spec:
                     time for your process. Defaults to 7200 seconds.
                   format: int64
                   type: integer
+		workerPodAnnotations:
+                  additionalProperties:
+                    type: string
+                  type: object
               required:
               - count
               - cpuLimit

@@ -70,7 +70,7 @@ func createReplicaSetForWorker(r *ReconcilePresto, presto *prestodbv1alpha1.Pres
 			GenerateName: getWorkerReplicaSet(presto.Status.Uuid),
 			Namespace:    presto.Namespace,
 			OwnerReferences: []metav1.OwnerReference{*getOwnerReference(presto)},
-			Labels: lbls,
+			Labels:          appendAdditionalLabels(lbls, presto.Spec.Worker.AdditionalLabels),
 		},
 		Spec: v1.ReplicaSetSpec{
 			Replicas: func() *int32 { i := workerCount; return &i }(),
@@ -80,8 +80,9 @@ func createReplicaSetForWorker(r *ReconcilePresto, presto *prestodbv1alpha1.Pres
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
 					OwnerReferences: []metav1.OwnerReference{*getOwnerReference(presto)},
-					Namespace:    presto.Namespace,
-					Labels: lbls,
+					Namespace:       presto.Namespace,
+					Labels:          appendAdditionalLabels(lbls, presto.Spec.Worker.AdditionalLabels),
+					Annotations:     presto.Spec.Worker.WorkerPodAnnotations,
 				},
 				Spec: *podSpec,
 			},

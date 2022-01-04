@@ -60,6 +60,12 @@ type WorkerSpec struct {
 
 	// +kubebuilder:validation:Optional
 	Autoscaling AutoscalingSpec `json:"autoscaling,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	WorkerPodAnnotations map[string]string `json:"workerPodAnnotations,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	AdditionalLabels map[string]string `json:"additionalLabels,omitempty"`
 }
 
 // +k8s:openapi-gen=true
