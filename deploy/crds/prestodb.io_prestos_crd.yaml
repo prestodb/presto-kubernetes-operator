@@ -131,6 +131,10 @@ spec:
                 on a service. Following is a copy of v1.ServiceSpec except that Ports
                 is an optional field and Selectors field is removed.
               properties:
+                additionalLabels:
+                  additionalProperties:
+                    type: string
+                  type: object
                 clusterIP:
                   description: 'clusterIP is the IP address of the service and is
                     usually assigned randomly by the master. If an address is specified
@@ -213,6 +217,10 @@ spec:
                     for its Pods without respect to their readiness for purpose of
                     peer discovery.
                   type: boolean
+                serviceAnnotations:
+                  additionalProperties:
+                    type: string
+                  type: object
                 sessionAffinity:
                   description: 'Supports "ClientIP" and "None". Used to maintain session
                     affinity. Enable client IP based session affinity. Must be ClientIP

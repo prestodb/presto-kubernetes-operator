@@ -218,6 +218,12 @@ type ServiceSpec struct {
 
 	// +kubebuilder:validation:Optional
 	IPFamily *v1.IPFamily `json:"ipFamily,omitempty" protobuf:"bytes,15,opt,name=ipFamily,Configcasttype=IPFamily"`
+
+	// +kubebuilder:validation:Optional
+	ServiceAnnotations map[string]string `json:"serviceAnnotations,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	AdditionalLabels map[string]string `json:"additionalLabels,omitempty"`
 }
 
 // +k8s:openapi-gen=true

@@ -6,6 +6,11 @@ spec:
   service:
     type: "LoadBalancer"
     port: 8100
+    serviceAnnotations:
+      service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+    additionalLabels:
+      app: olaelectric-presto-coordinator
+
   catalogs:
     catalogSpec:
       - name: hive
