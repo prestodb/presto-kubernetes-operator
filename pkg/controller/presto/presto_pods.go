@@ -211,9 +211,9 @@ func getPrestoCoordinatorPodSpec(r *ReconcilePresto, presto *prestodbv1alpha1.Pr
 		return nil, &OperatorError{fmt.Sprintf("cannot parse presto.Spec.Coordinator.CpuLimit: " +
 			"'%v': %v", presto.Spec.Coordinator.CpuLimit, err)}
 	}
-	limitResource[corev1.ResourceMemory], err = resource.ParseQuantity(presto.Spec.Worker.MemoryLimit)
+	limitResource[corev1.ResourceMemory], err = resource.ParseQuantity(presto.Spec.Coordinator.MemoryLimit)
 	if err != nil {
-		return nil, &OperatorError{fmt.Sprintf("cannot parse presto.Spec.Worker.MemoryLimit: " +
+		return nil, &OperatorError{fmt.Sprintf("cannot parse presto.Spec.Coordinator.MemoryLimit: " +
 			"'%v': %v", presto.Spec.Worker.MemoryLimit, err)}
 	}
 	if len(presto.Spec.Coordinator.CpuRequest) == 0 {
