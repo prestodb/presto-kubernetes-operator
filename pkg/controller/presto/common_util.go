@@ -169,7 +169,7 @@ func appendAdditionalLabels(baseLabels map[string]string, appendLbls map[string]
 	for key, value := range baseLabels {
 		lbls[key] = value
 	}
-	listOfPredefinedLables := []string{"clusterName", "clusterUUID", "ext-presto-svc", "pod-discovery", "worker", "coordinator"}
+	listOfPredefinedLables := []string{"clusterName", "clusterUUID", "external-presto-svc", "pod-discovery", "worker", "coordinator"}
 	for key, value := range appendLbls {
 		//if any of the element from listOfPredefinedLables matches, it will not overwrirte, for predefined labels oerator set value is precedence.
 		if !containsKeyInList(listOfPredefinedLables, key) {
