@@ -152,3 +152,29 @@ func getPrestoPath(presto *v1alpha1.Presto) string {
 	}
 	return prestoPath
 }
+
+//function check contain in List
+func containsKeyInList(list []string, str string) bool {
+	for _, v := range list {
+		if v == str {
+			return true
+		}
+	}
+	return false
+}
+
+//Function to append list of existing label and return the same, first agument map will be appended with second one.
+func appendAdditionalLabels(baseLabels map[string]string, appendLbls map[string]string) map[string]string {
+	lbls := make(map[string]string)
+	for key, value := range baseLabels {
+		lbls[key] = value
+	}
+	listOfPredefinedLables := []string{"clusterName", "clusterUUID", ""external-presto-svc", "pod-discovery", "worker", "coordinator"}
+	for key, value := range appendLbls {
+		//if any of the element from listOfPredefinedLables matches, it will not overwrirte, for predefined labels oerator set value is precedence.
+		if !containsKeyInList(listOfPredefinedLables, key) {
+			lbls[key] = value
+		}
+	}
+	return lbls
+}
