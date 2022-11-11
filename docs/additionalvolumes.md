@@ -14,12 +14,12 @@ spec:
 # /prestospill folder is used as the spill folder
   coordinator:
     additionalProps:
-      spill-enabled: "true"
-      spiller-spill-path: "/prestospill"
-  coordinator:
+      experimental.spill-enabled: "true"
+      experimental.spiller-spill-path: "/prestospill"
+  worker:
     additionalProps:
-      spill-enabled: "true"
-      spiller-spill-path: "/prestospill"
+      experimental.spill-enabled: "true"
+      experimental.spiller-spill-path: "/prestospill"
 ```
 ## Spill Volumes
 
